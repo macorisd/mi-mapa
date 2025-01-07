@@ -100,7 +100,7 @@ const MarcadorViewPage = () => {
                 <Popup>{marcador.lugar}</Popup>
               </Marker>
             </MapContainer>
-          </div>          
+          </div>
         </div>
       </div>
 
