@@ -6,7 +6,7 @@ import { Icon } from "leaflet";
 import { useNavigate } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 
-const MapsMainPage = () => {
+const MapMainPage = () => {
   const { getUser } = useAuth();
   const { marcadores } = useAPI();
   const [countries, setCountries] = useState([]);
@@ -114,4 +114,4 @@ const MapsMainPage = () => {
   );
 };
 
-export default MapsMainPage;
+export default MapMainPage;

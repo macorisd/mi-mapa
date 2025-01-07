@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 import json
 from bson.objectid import ObjectId
 
-from user_model import User, Review, UserCreate, UserUpdate, UserDeleteResponse
+from models.user_model import User, Review, UserCreate, UserUpdate, UserDeleteResponse
 from db_connection import DatabaseConnection
 from api_utils import APIUtils
 from fastapi import Path, HTTPException
