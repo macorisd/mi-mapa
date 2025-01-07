@@ -14,6 +14,7 @@ const MapMainPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [userEmail, setUserEmail] = useState("");
+  const [selectedMarker, setSelectedMarker] = useState(null);
   const navigate = useNavigate();
 
   const markerIcon = new Icon({
@@ -80,6 +81,10 @@ const MapMainPage = () => {
     navigate("/marcadores/create");
   };
 
+  const handleViewDetails = (id) => {
+    navigate(`/marcadores/${id}`);
+  };
+
   return (
     <div className="container py-5">
       <h1 className="text-center mb-4">Países Visitados</h1>
@@ -98,9 +103,26 @@ const MapMainPage = () => {
           <MapContainer center={center} zoom={5} style={{ height: "400px", width: "100%" }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <MapCenter />
-            {countries.map((country) => (
-              <Marker key={country.id} position={[country.lat, country.lon]} icon={markerIcon}>
-                <Popup>{country.nombre}</Popup>
+            {countries.map((marcador) => (
+              <Marker
+                key={marcador._id}
+                position={[marcador.lat, marcador.lon]}
+                icon={markerIcon}
+                eventHandlers={{
+                  click: () => setSelectedMarker(marcador),
+                }}
+              >
+                <Popup>
+                  <div>
+                    <p>{marcador.lugar}</p>
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => navigate(`/marcadores/${marcador._id}`)}
+                    >
+                      Ver Detalles
+                    </button>
+                  </div>
+                </Popup>
               </Marker>
             ))}
           </MapContainer>
@@ -110,6 +132,33 @@ const MapMainPage = () => {
       {!isLoading && !errorMsg && countries.length === 0 && (
         <div className="text-center mt-5">No se encontraron países visitados.</div>
       )}
+
+      {selectedMarker && (        
+        <div
+          className="card mt-4 mx-auto"
+          style={{ maxWidth: "500px", textAlign: "center" }}
+        >
+          <h2 className="text-center mt-4">Marcador seleccionado:</h2>
+          <div className="card-body">
+            <h3 className="card-title">{selectedMarker.lugar}</h3>
+            {selectedMarker.imagen && (
+              <img
+                src={selectedMarker.imagen}
+                alt={selectedMarker.lugar}
+                className="img-fluid mb-3"
+                style={{ maxWidth: "400px", margin: "0 auto", display: "block" }}
+              />
+            )}
+            <button
+              className="btn btn-primary"
+              onClick={() => handleViewDetails(selectedMarker._id)}
+            >
+              Ver Detalles
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
