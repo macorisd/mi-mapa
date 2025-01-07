@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useAPI } from "../../context/APIContext";
-import { useData } from "../../context/DataContext";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { Icon } from "leaflet";
 import { useNavigate } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 
-const MapMainPage = () => {
-  const { getUser } = useAuth();
+const MapSearchPage = () => {
   const { marcadores } = useAPI();
+  const { getUser } = useAuth();
+  const [emailToSearch, setEmailToSearch] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [countries, setCountries] = useState([]);
   const [center, setCenter] = useState([51.505, -0.09]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [userEmail, setUserEmail] = useState("");
+  const [searchError, setSearchError] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
-  const { setActualMarker } = useData();
   const navigate = useNavigate();
 
   const markerIcon = new Icon({
@@ -27,27 +27,20 @@ const MapMainPage = () => {
     shadowSize: [41, 41],
   });
 
-  const getUserEmail = () => {
-    const user = getUser();
-    if (user && user.email) {
-      setUserEmail(user.email);
-    } else {
-      setErrorMsg("Información del usuario no encontrada. Intenta iniciar sesión nuevamente.");
-    }
-  };
-
-  const getVisitedCountries = async () => {
-    if (!userEmail) return;
+  const getVisitedCountries = async (email) => {
+    if (!email) return;
 
     setIsLoading(true);
     setErrorMsg(null);
 
     try {
-      const response = await marcadores.getByEmail(userEmail);
+      const response = await marcadores.getByEmail(email);
       if (response.status >= 200 && response.status < 300) {
         setCountries(response.data);
         if (response.data.length > 0) {
           setCenter([response.data[0].lat, response.data[0].lon]);
+        } else {
+          setCenter([51.505, -0.09]); // Center map if no markers
         }
       } else {
         setErrorMsg("Error al obtener los países visitados.");
@@ -59,13 +52,19 @@ const MapMainPage = () => {
     }
   };
 
-  useEffect(() => {
-    getUserEmail();
-  }, []);
+  const handleSearch = () => {
+    if (!emailToSearch) {
+      setSearchError("Por favor, ingresa un email para buscar.");
+      return;
+    }
+
+    setSearchError(null);
+    setUserEmail(emailToSearch);
+  };
 
   useEffect(() => {
     if (userEmail) {
-      getVisitedCountries();
+      getVisitedCountries(userEmail);
     }
   }, [userEmail]);
 
@@ -79,24 +78,28 @@ const MapMainPage = () => {
     return null;
   };
 
-  const navigateToCreatePage = () => {
-    navigate("/marcadores/create");
-  };
-
   const handleViewDetails = (id) => {
-    setActualMarker(selectedMarker);
     navigate(`/marcadores/${id}`);
   };
 
   return (
     <div className="container py-5">
-      <h1 className="text-center mb-4">Países Visitados</h1>
+      <h1 className="text-center mb-4">Buscar Mapas de Usuario</h1>
 
       <div className="text-center mb-4">
-        <button className="btn btn-success" onClick={navigateToCreatePage}>
-          Añadir Marcador
+        <input
+          type="email"
+          className="form-control mb-2"
+          placeholder="Ingresa el email del usuario"
+          value={emailToSearch}
+          onChange={(e) => setEmailToSearch(e.target.value)}
+        />
+        <button className="btn btn-primary" onClick={handleSearch}>
+          Buscar
         </button>
       </div>
+
+      {searchError && <div className="text-center mt-3 text-danger">{searchError}</div>}
 
       {isLoading && <div className="text-center mt-5">Cargando...</div>}
       {errorMsg && <div className="text-center mt-5 text-danger">{errorMsg}</div>}
@@ -120,7 +123,7 @@ const MapMainPage = () => {
                     <p>{marcador.lugar}</p>
                     <button
                       className="btn btn-primary btn-sm"
-                      onClick={() => handleViewDetails(selectedMarker._id)}
+                      onClick={() => navigate(`/marcadores/${marcador._id}`)}
                     >
                       Ver Detalles
                     </button>
@@ -132,15 +135,12 @@ const MapMainPage = () => {
         </div>
       )}
 
-      {!isLoading && !errorMsg && countries.length === 0 && (
-        <div className="text-center mt-5">No se encontraron países visitados.</div>
+      {!isLoading && !errorMsg && countries.length === 0 && userEmail && (
+        <div className="text-center mt-5">No se encontraron marcadores para este usuario.</div>
       )}
 
-      {selectedMarker && (        
-        <div
-          className="card mt-4 mx-auto"
-          style={{ maxWidth: "500px", textAlign: "center" }}
-        >
+      {selectedMarker && (
+        <div className="card mt-4 mx-auto" style={{ maxWidth: "500px", textAlign: "center" }}>
           <h2 className="text-center mt-4">Marcador seleccionado:</h2>
           <div className="card-body">
             <h3 className="card-title">{selectedMarker.lugar}</h3>
@@ -161,9 +161,8 @@ const MapMainPage = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };
 
-export default MapMainPage;
+export default MapSearchPage;

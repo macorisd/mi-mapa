@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useAuth } from "../../../context/AuthContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ProfileDropdown from "./ProfileDropdown";
 
 const Header = () => {
@@ -21,7 +21,8 @@ const Header = () => {
   );
 
   const profileBundle = useMemo(
-    () => userID && <ProfileDropdown id={userID} />, [userID]
+    () => userID && <ProfileDropdown id={userID} />,
+    [userID]
   );
 
   return (
@@ -36,10 +37,19 @@ const Header = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <Link to={"/"} className="navbar-brand">
+          <Link to={"/mapa"} className="navbar-brand ms-3">
             MiMapa
           </Link>
-          <div className="d-flex align-items-end">
+          <div className="collapse navbar-collapse" id="collapseDiv">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link to={"/mapa/buscar"} className="nav-link">
+                  Buscar mapa
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="d-flex align-items-end me-3">
             {isLogged() ? profileBundle : loginBtn}
           </div>
         </div>

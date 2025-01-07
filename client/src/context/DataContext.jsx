@@ -3,20 +3,20 @@ import { useContext, createContext, useState } from "react";
 const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-    const [event, setEvent] = useState(undefined);
+    const [marker, setMarker] = useState(undefined);
 
-    const getActualEvent = () => event;
+    const getActualMarker = () => marker;
 
-    const setActualEvent = (event) => setEvent(event);
+    const setActualMarker = (marker) => setMarker(marker);
 
-    const clearActualEvent = () => setEvent(undefined);
+    const clearActualMarker = () => setMarker(undefined);
 
     return (
         <DataContext.Provider
             value={{
-                getActualEvent,
-                setActualEvent,
-                clearActualEvent,
+                getActualMarker,
+                setActualMarker,
+                clearActualMarker,
             }}
         >
             {children}

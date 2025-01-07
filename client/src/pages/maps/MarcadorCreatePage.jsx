@@ -59,7 +59,7 @@ const MarcadorCreatePage = () => {
 
         const marcadorResponse = await marcadores.create(newMarcador);
         if (marcadorResponse.status >= 200 && marcadorResponse.status < 300) {
-          navigate("/home");
+          navigate("/mapa");
         } else {
           setError("Error al crear el marcador");
         }

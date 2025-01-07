@@ -8,7 +8,7 @@ const Page404 = () => {
         <h1>Ups... ha ocurrido un error <i className="bi bi-exclamation-circle" style={{color: "red"}}></i></h1>
         <hr className="text-black w-md-25 w-75" />
         <p>No hemos podido encontrar la página web que ha buscado :(</p>
-        <button onClick={() => {navigate("/home")}} className="btn btn-secondary">Volver a inicio</button>
+        <button onClick={() => {navigate("/mapa")}} className="btn btn-secondary">Volver a inicio</button>
     </div>
 }
 

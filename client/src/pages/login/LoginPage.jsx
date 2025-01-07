@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import "./LoginPage.css";
 import { useAuth } from "../../context/AuthContext";
 
 const LoginPage = () => {
@@ -9,7 +8,7 @@ const LoginPage = () => {
   const handleLogin = async (provider) => {
     try {
       await login(provider);
-      navigate("/home");
+      navigate("/mapa");
     } catch (error) {
       console.error(`Error during ${provider} login:`, error);
     }
