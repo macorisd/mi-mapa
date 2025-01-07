@@ -1,0 +1,37 @@
+[
+    {
+        "lugar": "Madrid",
+        "lat": 40.416775,
+        "lon": -3.703790,
+        "creador": "juan.perez@example.com",
+        "imagen": "https://res.cloudinary.com/example/image/upload/v1699999999/madrid.jpg"
+    },
+    {
+        "lugar": "París",
+        "lat": 48.856613,
+        "lon": 2.352222,
+        "creador": "ana.lopez@example.com",
+        "imagen": "https://res.cloudinary.com/example/image/upload/v1699999999/paris.jpg"
+    },
+    {
+        "lugar": "Roma",
+        "lat": 41.902783,
+        "lon": 12.496366,
+        "creador": "carlos.garcia@example.com",
+        "imagen": "https://res.cloudinary.com/example/image/upload/v1699999999/roma.jpg"
+    },
+    {
+        "lugar": "Berlín",
+        "lat": 52.520008,
+        "lon": 13.404954,
+        "creador": "maria.sanchez@example.com",
+        "imagen": "https://res.cloudinary.com/example/image/upload/v1699999999/berlin.jpg"
+    },
+    {
+        "lugar": "Londres",
+        "lat": 51.507351,
+        "lon": -0.127758,
+        "creador": "lucia.martinez@example.com",
+        "imagen": "https://res.cloudinary.com/example/image/upload/v1699999999/londres.jpg"
+    }
+]
