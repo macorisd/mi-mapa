@@ -50,11 +50,11 @@ const ProfileDropdown = ({ id }) => {
         {userData.name}
       </button>
       <ul className="dropdown-menu" aria-labelledby="profileDropdown">
-        <li>
+        {/* <li>
           <Link className="dropdown-item" to={`/profile/${id}`}>
             Ver Perfil
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link className="dropdown-item text-danger" to="/logout">
             Cerrar Sesión

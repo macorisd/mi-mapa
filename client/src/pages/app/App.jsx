@@ -4,11 +4,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "../app/components/Header";
 import Footer from "../app/components/Footer";
 
-import MapsMainPage from "../maps/MapsMainPage";
+import MapMainPage from "../maps/MapMainPage";
+import MapSearchPage from "../maps/MapSearchPage";
 
-import MapsViewPage from "../maps/MapsViewPage";
-import MapCreatePage from "../maps/MapCreatePage";
-import MapEditPage from "../maps/MapEditPage";
+import MarcadorViewPage from "../maps/MarcadorViewPage";
+import MarcadorCreatePage from "../maps/MarcadorCreatePage";
+import MarcadorEditPage from "../maps/MarcadorEditPage";
 
 import LoginPage from "../login/LoginPage";
 import LogoutPage from "../login/LogoutPage";
@@ -22,10 +23,11 @@ function App() {
       
         <Routes>
         <Route path="/" element={<LoginPage />} />
-          <Route path="/home" element={wrap(<MapsMainPage />, { header: true, footer: true })}/>
-          <Route path="/maps/create" element={wrap(<MapCreatePage />)} />
-          <Route path="/maps/:id" element={wrap(<MapsViewPage />)} />
-          <Route path="/maps/:id/edit" element={wrap(<MapEditPage />)} />
+          <Route path="/mapa" element={wrap(<MapMainPage />, { header: true, footer: true })}/>
+          <Route path="/mapa/buscar" element={wrap(<MapSearchPage />, { header: true, footer: true })}/>
+          <Route path="/marcadores/create" element={wrap(<MarcadorCreatePage />)} />  
+          <Route path="/marcadores/:id" element={wrap(<MarcadorViewPage />)} />
+          <Route path="/marcadores/:id/edit" element={wrap(<MarcadorEditPage />)} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/logout" element={<LogoutPage />} />
           <Route path="*" element={<Page404 />} />

@@ -74,12 +74,14 @@ export const AuthProvider = ({ children }) => {
 
                 const id = response.data[0]._id;
                 const name = response.data[0].name
+                const token = response.data[0].oauthToken;
                 setUser({
                     uid: firebaseUser.uid,
                     email: firebaseUser.email,
                     authMethod: providerName,
                     id: id,
-                    name: name
+                    name: name,
+                    oauthToken: token,
                 });
             }
         } catch (error) {

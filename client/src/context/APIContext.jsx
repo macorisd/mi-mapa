@@ -3,8 +3,8 @@ import axios from "axios";
 
 const APIContext = createContext();
 
-const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL || "http://localhost:8000/api";
-// const BASE_URL = "https://parcial3-web-server.vercel.app/api";
+// const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL || "http://localhost:8000/api";
+const BASE_URL = "https://parcial3-web-server.vercel.app/api";
 
 export const APIProvider = ({ children }) => {
     const [loadCount, setLoadCount] = useState(0);
@@ -63,6 +63,11 @@ export const APIProvider = ({ children }) => {
             apiMethods.get(`${BASE_URL}/${version}/marcadores/email/${email}`),
     });
 
+    const visitasAPI = createEndpointMethods("visitas", {
+        getByEmail: (email, version = "v1") =>
+            apiMethods.get(`${BASE_URL}/${version}/visitas/email/${email}`),
+    });
+
     const mediaAPI = createEndpointMethods("media", {
         create: (body, version = "v1") =>
             apiMethods.post(`${BASE_URL}/${version}/media`, body),
@@ -83,6 +88,7 @@ export const APIProvider = ({ children }) => {
         <APIContext.Provider
             value={{
                 marcadores: marcadoresAPI,
+                visitas: visitasAPI,
                 media: mediaAPI,
                 setLoading: setLoading,
                 users: usersAPI,

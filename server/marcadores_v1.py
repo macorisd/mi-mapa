@@ -74,12 +74,11 @@ async def get_marcador_by_id(request: Request, id: str = Path(description="ID de
 async def get_marcadores_by_email(email: str = Path(description="Email del creador de los marcadores")):
     """Obtener marcadores por email del creador."""
     try:
-        # Realizar la consulta utilizando query_document en lugar de read_document_id
         query = {"creador": email}
         marcadores = DatabaseConnection.query_document("marcador", query)
 
-        if not marcadores:
-            return JSONResponse(status_code=404, content={"detail": f"No se encontraron marcadores para el email {email}"})
+        # if not marcadores:
+        #     return JSONResponse(status_code=404, content={"detail": f"No se encontraron marcadores para el email {email}"})
 
         return JSONResponse(status_code=200, content=marcadores,
                             headers={"Content-Type": "application/json", "X-Total-Count": str(len(marcadores))})

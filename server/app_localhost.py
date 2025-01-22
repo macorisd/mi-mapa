@@ -6,6 +6,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 
 from marcadores_v1 import router as marcadores_v1_router
+from visitas_v1 import router as visitas_v1_router
 from multimedia_v1 import router as multimedia_v1_router
 from users_v1 import router as users_v1_router
 
@@ -23,6 +24,7 @@ app.add_middleware(
 )
 
 app.include_router(marcadores_v1_router, prefix="/api/v1")
+app.include_router(visitas_v1_router, prefix="/api/v1")
 app.include_router(multimedia_v1_router, prefix="/api/v1")
 app.include_router(users_v1_router, prefix="/api/v1")
 
