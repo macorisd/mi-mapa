@@ -6,7 +6,6 @@ import logging
 import os
 from dotenv import load_dotenv
 
-# Configuración del registro de errores
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 load_dotenv()
