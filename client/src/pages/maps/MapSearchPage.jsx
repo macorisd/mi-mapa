@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 
 const MapSearchPage = () => {
-  const { marcadores } = useAPI();
-  const { getUser } = useAuth();
+  const { marcadores, visitas } = useAPI();
+  const { isLogged, getUser } = useAuth();
   const [emailToSearch, setEmailToSearch] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [countries, setCountries] = useState([]);
@@ -37,6 +37,15 @@ const MapSearchPage = () => {
       const response = await marcadores.getByEmail(email);
       if (response.status >= 200 && response.status < 300) {
         setCountries(response.data);
+
+        if (user.email) {
+          await visitas.create({
+            usuarioVisitado: email,
+            usuarioVisitante: user.email,
+            oauthToken: user.oauthToken,
+          });
+        }
+
         if (response.data.length > 0) {
           setCenter([response.data[0].lat, response.data[0].lon]);
         } else {
@@ -81,6 +90,8 @@ const MapSearchPage = () => {
   const handleViewDetails = (id) => {
     navigate(`/marcadores/${id}`);
   };
+
+  const user = isLogged() ? getUser() : null;
 
   return (
     <div className="container py-5">

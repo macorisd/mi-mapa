@@ -9,13 +9,14 @@ import "leaflet/dist/leaflet.css";
 
 const MapMainPage = () => {
   const { getUser } = useAuth();
-  const { marcadores } = useAPI();
+  const { marcadores, visitas } = useAPI();
   const [countries, setCountries] = useState([]);
   const [center, setCenter] = useState([51.505, -0.09]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [userEmail, setUserEmail] = useState("");
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [visits, setVisits] = useState([]);
   const { setActualMarker } = useData();
   const navigate = useNavigate();
 
@@ -59,6 +60,21 @@ const MapMainPage = () => {
     }
   };
 
+  const getVisitsToMyMap = async () => {
+    if (!userEmail) return;
+
+    try {
+      const response = await visitas.getByEmail(userEmail);
+      if (response.status >= 200 && response.status < 300) {
+        setVisits(response.data);
+      } else {
+        setErrorMsg("Error al obtener las visitas al mapa.");
+      }
+    } catch (error) {
+      setErrorMsg("Hubo un problema al obtener las visitas.");
+    }
+  };
+
   useEffect(() => {
     getUserEmail();
   }, []);
@@ -66,6 +82,7 @@ const MapMainPage = () => {
   useEffect(() => {
     if (userEmail) {
       getVisitedCountries();
+      getVisitsToMyMap();
     }
   }, [userEmail]);
 
@@ -136,7 +153,7 @@ const MapMainPage = () => {
         <div className="text-center mt-5">No se encontraron países visitados.</div>
       )}
 
-      {selectedMarker && (        
+      {selectedMarker && (
         <div
           className="card mt-4 mx-auto"
           style={{ maxWidth: "500px", textAlign: "center" }}
@@ -162,6 +179,31 @@ const MapMainPage = () => {
         </div>
       )}
 
+      <div className="mt-5">
+        <h2 className="text-center mb-4">Visitas a mi mapa</h2>
+        {visits.length > 0 ? (
+          <table className="table table-striped text-center">
+            <thead>
+              <tr>
+                <th>Usuario Visitante</th>
+                <th>Token OAuth</th>
+                <th>Fecha y Hora</th>
+              </tr>
+            </thead>
+            <tbody>
+              {visits.map((visit) => (
+                <tr key={visit._id}>
+                  <td>{visit.usuarioVisitante}</td>
+                  <td>{visit.oauthToken ? `${visit.oauthToken.substring(0, 40)}...` : "No disponible"}</td>
+                  <td>{new Date(visit.timestamp).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="text-center">No hay visitas registradas a tu mapa.</p>
+        )}
+      </div>
     </div>
   );
 };
