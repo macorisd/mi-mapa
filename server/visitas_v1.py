@@ -1,4 +1,5 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from typing import List
 from fastapi import APIRouter, HTTPException, Query, Request, Path
 from fastapi.responses import JSONResponse
@@ -74,7 +75,7 @@ async def create_visita(request: Request, visita: VisitaCreate):
 
     try:
         visita_dict = visita.model_dump()
-        visita_dict["timestamp"] = datetime.now()
+        visita_dict["timestamp"] = datetime.now(ZoneInfo("Europe/Madrid"))
         visita_dict['_id'] = DatabaseConnection.create_document("visita", visita_dict, hasDate=True)
 
         return JSONResponse(status_code=201, content=visita_dict,
