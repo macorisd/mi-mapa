@@ -37,7 +37,7 @@ const MapSearchPage = () => {
     setErrorMsg(null);
   
     try {
-      const response = await marcadores.getByEmail(email);
+      const response = await marcadores.getAll("?creador=" + email);
       if (response.status >= 200 && response.status < 300) {
         setCountries(response.data);
   
@@ -75,7 +75,7 @@ const MapSearchPage = () => {
     if (!email) return;
 
     try {
-      const response = await visitas.getByEmail(email);
+      const response = await visitas.getAll("?usuarioVisitado=" + email);
       if (response.status >= 200 && response.status < 300) {
         setVisits(response.data);
       } else {

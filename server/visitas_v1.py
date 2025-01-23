@@ -55,18 +55,6 @@ async def get_visitas(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al buscar las visitas: {str(e)}")
 
-@router.get("/" + endpoint_name + "/email/{email}", tags=["Visitas CRUD endpoints"], response_model=List[Visita])
-async def get_visitas_by_email(email: str = Path(description="Email del usuario visitado")):
-    """Obtener visitas por el email del usuario visitado."""
-    try:
-        query = {"usuarioVisitado": email}
-        visitas = DatabaseConnection.query_document("visita", query, hasDate=True)
-
-        return JSONResponse(status_code=200, content=visitas,
-                            headers={"Content-Type": "application/json", "X-Total-Count": str(len(visitas))})
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al obtener las visitas: {str(e)}")
-
 @router.post("/" + endpoint_name, tags=["Visitas CRUD endpoints"], response_model=Visita)
 async def create_visita(request: Request, visita: VisitaCreate):
     """Crear una nueva visita."""

@@ -59,13 +59,15 @@ export const APIProvider = ({ children }) => {
     });
 
     const marcadoresAPI = createEndpointMethods("marcadores", {
-        getByEmail: (email, version = "v1") =>
-            apiMethods.get(`${BASE_URL}/${version}/marcadores/email/${email}`),
+        // getByEmail: (email, version = "v1") =>
+        //     apiMethods.get(`${BASE_URL}/${version}/marcadores/email/${email}`),
+        // getByEmail: (params, version = "v1") =>
+        //     apiMethods.get(`${BASE_URL}/${version}/marcadores${params}`),
     });
 
     const visitasAPI = createEndpointMethods("visitas", {
-        getByEmail: (email, version = "v1") =>
-            apiMethods.get(`${BASE_URL}/${version}/visitas/email/${email}`),
+        // getByEmail: (email, version = "v1") =>
+        //     apiMethods.get(`${BASE_URL}/${version}/visitas/email/${email}`),
     });
 
     const mediaAPI = createEndpointMethods("media", {

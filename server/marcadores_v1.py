@@ -69,23 +69,6 @@ async def get_marcador_by_id(request: Request, id: str = Path(description="ID de
                             headers={"Content-Type": "application/json", "X-Total-Count": "1"})
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener el marcador: {str(e)}")
-    
-@router.get("/" + endpoint_name + "/email/{email}", tags=["Marcadores CRUD endpoints"], response_model=List[Marcador])
-async def get_marcadores_by_email(email: str = Path(description="Email del creador de los marcadores")):
-    """Obtener marcadores por email del creador."""
-    try:
-        query = {"creador": email}
-        marcadores = DatabaseConnection.query_document("marcador", query)
-
-        # if not marcadores:
-        #     return JSONResponse(status_code=404, content={"detail": f"No se encontraron marcadores para el email {email}"})
-
-        return JSONResponse(status_code=200, content=marcadores,
-                            headers={"Content-Type": "application/json", "X-Total-Count": str(len(marcadores))})
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al obtener los marcadores: {str(e)}")
-
-
 
 @router.post("/" + endpoint_name, tags=["Marcadores CRUD endpoints"], response_model=Marcador)
 async def create_marcador(request: Request, marcador: MarcadorCreate):
