@@ -22,7 +22,7 @@ async def get_marcadores(
     fields: str | None = Query(None, description="Campos específicos a devolver"),
     sort: str | None = Query(None, description="Campos por los que ordenar, separados por comas"),
     offset: int = Query(default=0, description="Índice de inicio para los resultados de la paginación"),
-    limit: int = Query(default=10, description="Cantidad de marcadores a devolver, por defecto 10")
+    limit: int = Query(default=30, description="Cantidad de marcadores a devolver, por defecto 10")
 ):
     """Obtener todos los marcadores con filtros opcionales."""
 
